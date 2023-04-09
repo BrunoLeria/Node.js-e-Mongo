@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
         .json({ msg: "Please enter all required fields", success: false });
     }
 
-    let user = await User.findOne({ email });
+    let user = User.findOne({ email });
     if (user) {
       return res
         .status(400)
@@ -66,7 +66,7 @@ router.post("/login", async (req, res) => {
         .json({ msg: "Please enter all required fields", success: false });
     }
 
-    let user = await User.findOne({ email }).select("+password");
+    let user = User.findOne({ email }).select("+password");
     if (!user) {
       return res
         .status(400)
