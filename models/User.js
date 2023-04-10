@@ -27,6 +27,9 @@ let UserSchema = new mongoose.Schema(
     created_at: {
       type: string,
     },
+    updated_at: {
+      type: string,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -42,7 +45,8 @@ UserSchema.pre("save", function (next) {
     (date_info.getMonth() + 1) +
     "/" +
     date_info.getFullYear();
-  this.created_at = date_info;
+  if (this.created_at) this.updated_at = date_info;
+  else this.created_at = date_info;
 });
 
 UserSchema.virtual("posts", {

@@ -26,6 +26,9 @@ const PostSchema = new mongoose.Schema(
     created_at: {
       type: String,
     },
+    updated_at: {
+      type: string,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -41,7 +44,8 @@ PostSchema.pre("save", function (next) {
     date_info.getMonth() +
     "/" +
     date_info.getFullYear();
-  this.created_at = date_info;
+  if (this.created_at) this.updated_at = date_info;
+  else this.created_at = date_info;
 });
 
 PostSchema.virtual("posted_by", {
