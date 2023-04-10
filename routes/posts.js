@@ -7,7 +7,7 @@ const Post = require("../models/Post");
 // Middleware
 const verifyAuth = require("../middleware/verifyAuth");
 
-// @route   GET | api/v1/posts | public | Get all posts
+// @route GET | api/v1/posts | public | Get all posts
 router.get("/posts", async (req, res) => {
   try {
     const posts = await Post.find();
@@ -18,7 +18,7 @@ router.get("/posts", async (req, res) => {
   }
 });
 
-// @route   GET | api/v1/followers-posts | public | Get all posts from the users that logged in user follow
+// @route GET | api/v1/followers-posts | public | Get all posts from the users that logged in user follow
 router.get("/followers-posts", verifyAuth, async (req, res) => {
   try {
     const get_user = await User.findById(req.user.id);
@@ -35,7 +35,7 @@ router.get("/followers-posts", verifyAuth, async (req, res) => {
   }
 });
 
-// @route   GET | api/v1/posts/:id | public | Get a single post by id
+// @route GET | api/v1/posts/:id | public | Get a single post by id
 router.get("/post/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
