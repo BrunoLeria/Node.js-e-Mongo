@@ -2,7 +2,7 @@ const { faker } = require("@faker-js/faker");
 const fs = require("fs");
 const path = require("path");
 
-const maxItems = 15;
+const maxItems = 5;
 
 const fixtureFile = path.normalize(
   path.join(__dirname, "../", "json", "users-seed.json")
@@ -17,10 +17,10 @@ const callback = (err) => {
 const users = [];
 
 for (let i = 0; i < maxItems; i++) {
-  const full_name = faker.name.fullName();
+  const name = faker.name.fullName().replace("Ms.", "").replace("Mrs.", "");
   const data = {
-    full_name,
-    email: faker.internet.email(full_name[0], full_name[1]),
+    name,
+    email: faker.internet.email(name.split(" ")[0], name.split(" ")[1]),
     password: faker.internet.password(),
   };
 
