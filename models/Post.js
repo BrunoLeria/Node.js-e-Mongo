@@ -27,7 +27,7 @@ const PostSchema = new mongoose.Schema(
       type: String,
     },
     updated_at: {
-      type: string,
+      type: String,
     },
   },
   {

@@ -25,10 +25,10 @@ let UserSchema = new mongoose.Schema(
       type: Array,
     },
     created_at: {
-      type: string,
+      type: String,
     },
     updated_at: {
-      type: string,
+      type: String,
     },
   },
   {
