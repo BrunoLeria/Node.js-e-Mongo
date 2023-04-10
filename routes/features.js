@@ -127,3 +127,5 @@ router.get("/profile/:id", verifyAuth, async (req, res) => {
     res.status(400).json({ success: false });
   }
 });
+
+module.exports = router;
