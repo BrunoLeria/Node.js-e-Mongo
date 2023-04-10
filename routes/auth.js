@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const verifyAuth = require("../middleware/verifyAuth");
 
-// @route POST | /api/v1/auth/register | public | Register a user
-router.post("/register", async (req, res) => {
+// @route POST | /api/v1/user | public | Register a user
+router.post("/user", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
@@ -55,7 +55,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// @route POST | /api/v1/auth/login | public | Login a user
+// @route POST | /api/v1/login | public | Login a user
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -102,7 +102,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// @route GET | /api/v1/auth/user | private | Get logged in user for the process of authentication
+// @route GET | /api/v1/user/user | private | Get logged in user for the process of authentication
 router.get("/user", verifyAuth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).populate("posts");
@@ -113,8 +113,8 @@ router.get("/user", verifyAuth, async (req, res) => {
   }
 });
 
-// @route PUT | /api/v1/auth/user/edit-user/:id | private | Edit a user
-router.put("/edit-user/:id", verifyAuth, async (req, res) => {
+// @route PUT | /api/v1/user/:id | private | Edit a user
+router.put("/user/:id", verifyAuth, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -137,8 +137,8 @@ router.put("/edit-user/:id", verifyAuth, async (req, res) => {
   }
 });
 
-// @route DELETE | /api/v1/auth/user/delete-user/:id | private | Delete a user
-router.delete("/delete-user/:id", verifyAuth, async (req, res) => {
+// @route DELETE | /api/v1/user/:id | private | Delete a user
+router.delete("/user/:id", verifyAuth, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
