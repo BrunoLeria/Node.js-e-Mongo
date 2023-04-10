@@ -73,7 +73,7 @@ router.post("/posts", verifyAuth, async (req, res) => {
   }
 });
 
-// @route PUT | /api/v1/post/posts/:id | private | Edit a post
+// @route PUT | /api/v1/posts/:id | private | Edit a post
 router.put("/posts/:id", verifyAuth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -102,7 +102,7 @@ router.put("/posts/:id", verifyAuth, async (req, res) => {
   }
 });
 
-// @route DELETE | /api/v1/post/posts/:id | private | Delete a post
+// @route DELETE | /api/v1/posts/:id | private | Delete a post
 router.delete("/posts/:id", verifyAuth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
