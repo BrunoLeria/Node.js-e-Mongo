@@ -1,4 +1,4 @@
-let users = pm.collectionVariables.get("user");
+let users = pm.collectionVariables.get("users");
 
 if (!users || users.length == 0) {
   users = [
@@ -81,5 +81,7 @@ if (!users || users.length == 0) {
 }
 
 let currentUser = users.shift();
-pm.collectionVariables.set("currentUser", currentUser);
+pm.collectionVariables.set("username", currentUser.full_name);
+pm.collectionVariables.set("useremail", currentUser.email);
+pm.collectionVariables.set("userpassword", currentUser.password);
 pm.collectionVariables.set("users", users);
