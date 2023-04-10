@@ -4,7 +4,7 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 const verifyAuth = require("../middleware/verifyAuth");
 
-// @route GET api/v1/like/:id | private | Like a post by id
+// @route GET | /api/v1/like/:id | private | Like a post by id
 router.get("/like/:id", verifyAuth, async (req, res) => {
   try {
     const liked = await Post.updateOne(
@@ -26,7 +26,7 @@ router.get("/like/:id", verifyAuth, async (req, res) => {
     res.status(400).json({ success: false });
   }
 });
-// @route GET api/v1/unlike/:id | private | Unlike a post by id
+// @route GET | /api/v1/unlike/:id | private | Unlike a post by id
 router.get("/unlike/:id", verifyAuth, async (req, res) => {
   try {
     const unliked = await Post.updateOne(
@@ -48,7 +48,7 @@ router.get("/unlike/:id", verifyAuth, async (req, res) => {
     res.status(400).json({ success: false });
   }
 });
-// @route GET api/v1/follow/:id | private | Follow another user
+// @route GET | /api/v1/follow/:id | private | Follow another user
 router.get("/follow/:id", verifyAuth, async (req, res) => {
   try {
     const followed = await User.updateOne(
@@ -81,7 +81,7 @@ router.get("/follow/:id", verifyAuth, async (req, res) => {
     res.status(400).json({ success: false });
   }
 });
-// @route GET api/v1/unfollow/:id | private | Unfollow another user
+// @route GET | /api/v1/unfollow/:id | private | Unfollow another user
 router.get("/unfollow/:id", verifyAuth, async (req, res) => {
   try {
     const unfollowed = await User.updateOne(
@@ -114,7 +114,7 @@ router.get("/unfollow/:id", verifyAuth, async (req, res) => {
     res.status(400).json({ success: false });
   }
 });
-// @route GET api/v1/profile/:id | private | Get an user by id
+// @route GET | /api/v1/profile/:id | private | Get an user by id
 router.get("/profile/:id", verifyAuth, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
