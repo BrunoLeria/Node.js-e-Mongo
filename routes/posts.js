@@ -18,8 +18,8 @@ router.get("/posts", async (req, res) => {
   }
 });
 
-// @route GET | /api/v1/followers-posts | private | Get all posts from the users that logged in user follow
-router.get("/followers-posts", verifyAuth, async (req, res) => {
+// @route GET | /api/v1/posts/followers | private | Get all posts from the users that logged in user follow
+router.get("/posts/followers", verifyAuth, async (req, res) => {
   try {
     const get_user = await User.findById(req.user.id);
     const posts = await Post.find({ UserId: get_user.following }).populate(
@@ -36,7 +36,7 @@ router.get("/followers-posts", verifyAuth, async (req, res) => {
 });
 
 // @route GET | /api/v1/posts/:id | public | Get a single post by id
-router.get("/post/:id", async (req, res) => {
+router.get("/posts/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
@@ -53,8 +53,8 @@ router.get("/post/:id", async (req, res) => {
   }
 });
 
-// @route POST | /api/v1/add-new | private | Add a new post
-router.post("/add-new", verifyAuth, async (req, res) => {
+// @route POST | /api/v1/posts | private | Add a new post
+router.post("/posts", verifyAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
       UserId: req.user.id,
@@ -73,8 +73,8 @@ router.post("/add-new", verifyAuth, async (req, res) => {
   }
 });
 
-// @route PUT | /api/v1/post/edit-post/:id | private | Edit a post
-router.put("/edit-post/:id", verifyAuth, async (req, res) => {
+// @route PUT | /api/v1/post/posts/:id | private | Edit a post
+router.put("/posts/:id", verifyAuth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
@@ -102,8 +102,8 @@ router.put("/edit-post/:id", verifyAuth, async (req, res) => {
   }
 });
 
-// @route DELETE | /api/v1/post/delete-post/:id | private | Delete a post
-router.delete("/delete-post/:id", verifyAuth, async (req, res) => {
+// @route DELETE | /api/v1/post/posts/:id | private | Delete a post
+router.delete("/posts/:id", verifyAuth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
