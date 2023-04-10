@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const verifyAuth = require("../middleware/verifyAuth");
 
-// @route POST | /api/v1/auth/register | public | Register a user
+// @route POST | /api/v1/register | public | Register a user
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -14,7 +14,6 @@ router.post("/register", async (req, res) => {
         .status(400)
         .json({ msg: "Please enter all required fields", success: false });
     }
-
     let user = await User.findOne({ email });
     if (user) {
       return res
@@ -56,7 +55,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// @route POST | /api/v1/auth/login | public | Login a user
+// @route POST | /api/v1/login | public | Login a user
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -103,13 +102,13 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// @route GET | /api/v1/auth/user | private | Get logged in user for the process of authentication
+// @route GET | /api/v1/user | private | Get logged in user for the process of authentication
 router.get("/user", verifyAuth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).populate("posts");
     res.status(200).json({ user, success: true });
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
     res.status(500).json({ msg: "Server error", success: false });
   }
 });
@@ -133,7 +132,7 @@ router.put("/edit-user/:id", verifyAuth, async (req, res) => {
       data: {},
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(400).json({ success: false });
   }
 });
@@ -153,7 +152,7 @@ router.delete("/delete-user/:id", verifyAuth, async (req, res) => {
       data: {},
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(400).json({ success: false });
   }
 });
