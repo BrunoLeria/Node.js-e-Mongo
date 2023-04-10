@@ -114,4 +114,48 @@ router.get("/user", verifyAuth, async (req, res) => {
   }
 });
 
+// @route PUT | /api/v1/user/edit-user/:id | private | Edit a user
+router.put("/edit-user/:id", verifyAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      res.status(400).json({ success: false });
+    } else {
+      user.updateOne({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ success: false });
+  }
+});
+
+// @route DELETE | /api/v1/user/delete-user/:id | private | Delete a user
+router.delete("/delete-user/:id", verifyAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      res.status(400).json({ success: false });
+    } else {
+      user.deleteOne();
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ success: false });
+  }
+});
+
 module.exports = router;
