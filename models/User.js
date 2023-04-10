@@ -37,7 +37,7 @@ let UserSchema = new mongoose.Schema(
   }
 );
 
-UserSchema.pre("save", function (next) {
+UserSchema.pre("save", async function (next) {
   let date_info = new Date();
   date_info =
     date_info.getDate() +
@@ -45,8 +45,8 @@ UserSchema.pre("save", function (next) {
     (date_info.getMonth() + 1) +
     "/" +
     date_info.getFullYear();
-  if (this.created_at) this.updated_at = date_info;
-  else this.created_at = date_info;
+  if (this.created_at) this.updated_at = await date_info;
+  else this.created_at = await date_info;
 });
 
 UserSchema.virtual("posts", {
