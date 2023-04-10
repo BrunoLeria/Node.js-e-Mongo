@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
         .json({ msg: "Please enter all required fields", success: false });
     }
 
-    let user = User.findOne({ email });
+    let user = await User.findOne({ email });
     if (user) {
       return res
         .status(400)
@@ -66,7 +66,7 @@ router.post("/login", async (req, res) => {
         .json({ msg: "Please enter all required fields", success: false });
     }
 
-    let user = User.findOne({ email }).select("+password");
+    let user = await User.findOne({ email }).select("+password");
     if (!user) {
       return res
         .status(400)
@@ -104,9 +104,9 @@ router.post("/login", async (req, res) => {
 });
 
 // @route   GET api/v1/auth/user | private | Get logged in user for the process of authentication
-router.get("/user", verifyAuth, (req, res) => {
+router.get("/user", verifyAuth, async (req, res) => {
   try {
-    const user = User.findById(req.user.id).populate("posts");
+    const user = await User.findById(req.user.id).populate("posts");
     res.status(200).json({ user, success: true });
   } catch (err) {
     console.log(err.message);

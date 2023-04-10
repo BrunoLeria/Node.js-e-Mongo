@@ -10,7 +10,7 @@ const verifyAuth = require("../middleware/verifyAuth");
 // @route   GET | api/v1/posts | public | Get all posts
 router.get("/posts", async (req, res) => {
   try {
-    const posts = Post.find();
+    const posts = await Post.find();
     res.status(200).json({ data: posts, success: true });
   } catch (err) {
     console.error(err.message);
@@ -21,8 +21,8 @@ router.get("/posts", async (req, res) => {
 // @route   GET | api/v1/followers-posts | public | Get all posts from the users that logged in user follow
 router.get("/followers-posts", verifyAuth, async (req, res) => {
   try {
-    const get_user = User.findById(req.user.id);
-    const posts = Post.find({ UserId: get_user.following }).populate(
+    const get_user = await User.findById(req.user.id);
+    const posts = await Post.find({ UserId: get_user.following }).populate(
       "posted_by"
     );
     res.status(200).json({
@@ -38,7 +38,7 @@ router.get("/followers-posts", verifyAuth, async (req, res) => {
 // @route   GET | api/v1/posts/:id | public | Get a single post by id
 router.get("/post/:id", async (req, res) => {
   try {
-    const post = Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id);
     if (!post) {
       res.status(400).json({ success: false });
     }
@@ -76,7 +76,7 @@ router.post("/add-new", verifyAuth, async (req, res) => {
 // @route PUT | /api/v1/post/edit-post/:id | private | Edit a post
 router.put("/edit-post/:id", verifyAuth, async (req, res) => {
   try {
-    const post = Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id);
     if (!post) {
       res.status(400).json({ success: false });
     }
@@ -105,7 +105,7 @@ router.put("/edit-post/:id", verifyAuth, async (req, res) => {
 // @route DELETE | /api/v1/post/delete-post/:id | private | Delete a post
 router.delete("/delete-post/:id", verifyAuth, async (req, res) => {
   try {
-    const post = Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id);
     if (!post) {
       res.status(400).json({ success: false });
     }
