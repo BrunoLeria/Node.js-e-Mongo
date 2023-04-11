@@ -8,7 +8,6 @@ const verifyAuth = require("../middleware/verifyAuth");
 // @route POST | /api/v1/users | public | Register a user
 router.post("/users", async (req, res) => {
   try {
-    console.log(req.body);
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
       return res
