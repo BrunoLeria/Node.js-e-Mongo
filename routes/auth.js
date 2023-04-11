@@ -8,6 +8,7 @@ const verifyAuth = require("../middleware/verifyAuth");
 // @route POST | /api/v1/users | public | Register a user
 router.post("/users", async (req, res) => {
   try {
+    console.log(req.body);
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
       return res
@@ -116,20 +117,18 @@ router.get("/users", verifyAuth, async (req, res) => {
 // @route PUT | /api/v1/users/:id | private | Edit a user
 router.put("/users/:id", verifyAuth, async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findByIdAndUpdate(req.params.id, {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      update_at: Date.now(),
+    });
     if (!user) {
       res.status(400).json({ success: false });
-    } else {
-      user.updateOne({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-      });
     }
 
     res.status(200).json({
       success: true,
-      data: {},
     });
   } catch (err) {
     console.error(err);

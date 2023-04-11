@@ -45,8 +45,7 @@ UserSchema.pre("save", async function (next) {
     (date_info.getMonth() + 1) +
     "/" +
     date_info.getFullYear();
-  if (this.created_at) this.updated_at = await date_info;
-  else this.created_at = await date_info;
+  this.created_at = await date_info;
 });
 
 UserSchema.virtual("posts", {
