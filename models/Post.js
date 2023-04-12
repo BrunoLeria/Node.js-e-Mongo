@@ -3,7 +3,7 @@ const PostSchema = new mongoose.Schema(
   {
     UserId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
       required: true,
     },
     post_image: {
@@ -19,7 +19,7 @@ const PostSchema = new mongoose.Schema(
       type: Array,
     },
     post_emotion: {
-      // this will be filled bt AI/ML later
+      // this will be filled by AI/ML later
       type: String,
       default: null,
     },
@@ -35,24 +35,20 @@ const PostSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
-
-PostSchema.pre("save", function (next) {
+PostSchema.pre("save", async function (next) {
   let date_info = new Date();
   date_info =
     date_info.getDate() +
     "/" +
-    date_info.getMonth() +
+    (date_info.getMonth() + 1) +
     "/" +
     date_info.getFullYear();
-  if (this.created_at) this.updated_at = date_info;
-  else this.created_at = date_info;
+  this.created_at = await date_info;
 });
-
 PostSchema.virtual("posted_by", {
-  ref: "user",
+  ref: "users",
   localField: "UserId",
   foreignField: "_id",
   justOne: true,
 });
-
 module.exports = mongoose.model("post", PostSchema);

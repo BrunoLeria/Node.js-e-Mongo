@@ -89,6 +89,7 @@ router.put("/posts/:id", verifyAuth, async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         post_image: req.body.image_url,
+        update_at: Date.now(),
       });
     }
 
