@@ -51,6 +51,11 @@ router.get("/unlike/:id", verifyAuth, async (req, res) => {
 // @route GET | /api/v1/follow/:id | private | Follow another user
 router.get("/follow/:id", verifyAuth, async (req, res) => {
   try {
+    const user = await User.findById(req.user.id);
+    if (user.following.includes(req.params.id)) {
+      return res.status(401).json({ msg: "You already follow this user" });
+    }
+
     const followed = await User.updateOne(
       {
         _id: req.user.id,
@@ -72,7 +77,7 @@ router.get("/follow/:id", verifyAuth, async (req, res) => {
         },
       }
     );
-    if (!followed || followerAdded) {
+    if (!followed || !followerAdded) {
       return res.status(401).json({ success: false });
     }
     res.status(200).json({ success: true });
@@ -84,6 +89,12 @@ router.get("/follow/:id", verifyAuth, async (req, res) => {
 // @route GET | /api/v1/unfollow/:id | private | Unfollow another user
 router.get("/unfollow/:id", verifyAuth, async (req, res) => {
   try {
+    const user = await User.findById(req.user.id);
+    if (!user.following.includes(req.params.id)) {
+      return res
+        .status(401)
+        .json({ msg: "You are not following this user already." });
+    }
     const unfollowed = await User.updateOne(
       {
         _id: req.user.id,
@@ -105,7 +116,7 @@ router.get("/unfollow/:id", verifyAuth, async (req, res) => {
         },
       }
     );
-    if (!unfollowed || followerRemoved) {
+    if (!unfollowed || !followerRemoved) {
       return res.status(401).json({ success: false });
     }
     res.status(200).json({ success: true });
