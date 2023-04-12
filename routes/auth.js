@@ -116,10 +116,16 @@ router.get("/users", verifyAuth, async (req, res) => {
 // @route PUT | /api/v1/users/:id | private | Edit a user
 router.put("/users/:id", verifyAuth, async (req, res) => {
   try {
+    let password = req.body.password;
+    if (req.body.password.length > 0) {
+      const salt = await bcrypt.genSalt(10);
+      password = await bcrypt.hash(req.body.password, salt);
+    }
+
     const user = await User.findByIdAndUpdate(req.params.id, {
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
+      password: password,
       update_at: Date.now(),
     });
     if (!user) {
